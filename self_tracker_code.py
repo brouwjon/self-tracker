@@ -101,15 +101,26 @@ def saveData(core, groups, date, open_groups):
 def importData():
     """ UnPickle core, groups, date, and open_groups ...
     ... UnPickle from identically-named files in Directory """
-    with open('core', 'r') as core_file:
-        core = pickle.load(core_file)
-    with open('groups', 'r') as group_file:
-        groups = pickle.load(group_file)
-    with open('date', 'r') as date_file:
-        date = pickle.load(date_file)
-    with open('open_groups', 'r') as open_groups_file:
-        open_groups = pickle.load(open_groups_file)
-
+    try:
+        with open('core', 'r') as core_file:
+            core = pickle.load(core_file)
+    except EOFError:
+        core = {}
+    try:
+        with open('groups', 'r') as group_file:
+            groups = pickle.load(group_file)
+    except EOFError:
+        groups = {}
+    try:
+        with open('date', 'r') as date_file:
+            date = pickle.load(date_file)
+    except:
+        date = datetime.date.today()
+    try:
+        with open('open_groups', 'r') as open_groups_file:
+            open_groups = pickle.load(open_groups_file)
+    except:
+        open_groups = []
     return core, groups, open_groups, date 
     
     
